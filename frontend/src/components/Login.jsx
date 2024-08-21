@@ -1,11 +1,20 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loginSchema } from "../schemas";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, reset } from "../features/auth/authSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [error, setError] = useState("");
   const [showPassowrd, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -16,9 +25,20 @@ const Login = () => {
       validationSchema: loginSchema,
       onSubmit: (values, action) => {
         console.log(values);
-        action.resetForm();
+        dispatch(login(values));
+        // action.resetForm();
       },
     });
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [isError, isSuccess, user, navigate, dispatch]);
   return (
     <>
       <div className="flex justify-center items-center my-10">
@@ -73,7 +93,7 @@ const Login = () => {
               <Link className="hover:text-blue-400" to={"/register"}>
                 Register
               </Link>
-              <Link to="/forgot-password" className="hover:text-blue-400">
+              <Link to="/reset-password" className="hover:text-blue-400">
                 Forgot password?
               </Link>
             </div>

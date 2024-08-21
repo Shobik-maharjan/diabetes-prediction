@@ -3,8 +3,10 @@ import { useFormik } from "formik";
 import { registerSchema } from "../schemas";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../features/auth/authSlice";
+import { register, reset } from "../features/auth/authSlice";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -41,6 +43,19 @@ const Register = () => {
         action.resetForm();
       },
     });
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+      toast.success(
+        "An activation email has been sent to your email. Please check your email address"
+      );
+    }
+    dispatch(reset());
+  }, [isError, isSuccess, user, navigate, dispatch]);
 
   return (
     <>

@@ -12,29 +12,29 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(reset());
-    navigate("/");
+    navigate("/login");
   };
   return (
     <>
-      <div className="grid grid-cols-5 justify-between px-8 py-4 bg-blue-400 items-center">
-        <div className="text-3xl col-span-2">
-          <Link to="/">DIabetesPrediction</Link>
+      <div className="flex justify-between h-20 items-center">
+        <div className="text-2xl transition duration-300 hover:scale-110">
+          <Link to="/">DiabetesPrediction</Link>
         </div>
-        <div className="flex gap-4 justify-between col-span-1">
-          <div>
+        <div className="flex gap-8 justify-between text-xl">
+          <div className="hover:text-blue-900 hover:underline">
             <Link to="home">Home</Link>
           </div>
-          <div>
-            <Link to="about-us">About&nbsp;Us</Link>
+          <div className="hover:text-blue-900 hover:underline">
+            <Link to="about">About</Link>
           </div>
-          <div>
+          <div className="hover:text-blue-900 hover:underline">
             <Link to="contact">Contact</Link>
           </div>
         </div>
-        <div className="col-span-2 text-end">
+        <div className="text-end text-xl hover:text-blue-900 hover:underline">
           {user ? (
             <>
-              <Link to="/" className="pl-6" onClick={handleLogout}>
+              <Link to="/" onClick={handleLogout}>
                 Logout
               </Link>
             </>

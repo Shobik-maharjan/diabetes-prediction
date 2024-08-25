@@ -50,7 +50,7 @@ const ResetPasswordPage = () => {
 
   return (
     <>
-      <form action="" className="w-96 mx-auto flex my-10">
+      <form action="" className="w-96 mx-auto flex py-10">
         <div className="flex flex-col gap-4 text-center bg-gray-200 px-8 py-10 rounded-md">
           <h2 className="font-bold text-xl">Reset Passowrd Here</h2>
           <p>Enter your email address to reset your password</p>

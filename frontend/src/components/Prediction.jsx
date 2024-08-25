@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Prediction = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +22,8 @@ const Prediction = () => {
       [name]: value,
     });
   };
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,9 +67,15 @@ const Prediction = () => {
     }
   };
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
+
   return (
     <>
-      <div className="flex flex-col my-10 justify-center items-center">
+      <div className="flex flex-col py-10 justify-center items-center">
         <form onSubmit={handleSubmit} className="w-96">
           <div className=" px-8 py-10 bg-gray-200 rounded-md  uppercase">
             <h1 className="uppercase text-2xl py-6">Diabetes Prediction</h1>
@@ -176,13 +185,15 @@ const Prediction = () => {
                 Predict
               </button>
             </div>
+            {result && (
+              <div>
+                <h2 className="text-xl text-center">
+                  Prediction Result: {result}
+                </h2>
+              </div>
+            )}
           </div>
         </form>
-        {result && (
-          <div>
-            <h2>Prediction Result: {result}</h2>
-          </div>
-        )}
       </div>
     </>
   );

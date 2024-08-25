@@ -1,4 +1,4 @@
-mport pickle
+import pickle
 
 # with open('diabetes1.pkl', 'rb') as file:
 #     model = pickle.load(file)

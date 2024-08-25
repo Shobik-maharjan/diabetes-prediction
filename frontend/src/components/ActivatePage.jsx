@@ -35,10 +35,15 @@ const ActivatePage = () => {
   }, [isError, isSuccess]);
   return (
     <>
-      <div>
-        <h2>Activate your account</h2>
+      <div className="flex flex-col items-center justify-center min-h-[50vh] gap-4">
+        <h2 className="text-4xl">Click here to activate your account</h2>
 
-        <button onClick={handleSubmit}>Activate Account</button>
+        <button
+          className="px-4 py-2 bg-green-500 rounded-md hover:bg-green-500/80 text-xl"
+          onClick={handleSubmit}
+        >
+          Activate Account
+        </button>
       </div>
     </>
   );

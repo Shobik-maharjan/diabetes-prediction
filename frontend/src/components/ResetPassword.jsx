@@ -39,7 +39,7 @@ const ResetPassword = () => {
   }, [isError, isSuccess, message, navigate, dispatch]);
   return (
     <>
-      <form action="" className="w-96 mx-auto flex my-10">
+      <form action="" className="w-96 mx-auto flex py-10">
         <div className="flex flex-col gap-4 text-center bg-gray-200 px-8 py-10 rounded-md">
           <h2 className="font-bold text-xl">Forgot Passowrd ?</h2>
           <p>Enter your email address to reset your password</p>
@@ -50,7 +50,7 @@ const ResetPassword = () => {
               name="email"
               id="email"
               placeholder="Example@gmail.com"
-              className="border border-black p-2 rounded-md"
+              className="p-2 rounded-md"
               onChange={(e) => setEmail(e.target.value)}
             />
             <button

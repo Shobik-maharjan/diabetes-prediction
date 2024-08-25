@@ -24,7 +24,6 @@ const Login = () => {
       },
       validationSchema: loginSchema,
       onSubmit: (values, action) => {
-        console.log(values);
         dispatch(login(values));
         // action.resetForm();
       },
@@ -32,7 +31,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      toast.error("Invalid Crediental");
     }
     if (isSuccess || user) {
       navigate("/");
@@ -41,7 +40,7 @@ const Login = () => {
   }, [isError, isSuccess, user, navigate, dispatch]);
   return (
     <>
-      <div className="flex justify-center items-center my-10">
+      <div className="flex justify-center items-center py-10">
         <form action="" onSubmit={handleSubmit} className="w-96">
           <div className=" px-8 py-10 bg-gray-200 rounded-md  uppercase">
             <h2 className="text-center text-2xl">Login</h2>

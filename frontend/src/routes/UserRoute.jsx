@@ -8,15 +8,17 @@ import ActivatePage from "../components/ActivatePage";
 import ResetPassword from "../components/ResetPassword";
 import ResetPasswordPage from "../components/ResetPasswordPage";
 import NotFoundPage from "../components/NotFoundPage";
+import Home from "../layout/pages/home/Home";
 
 const UserRoute = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Prediction />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
+        <Route path="/prediction" element={<Prediction />} />
         <Route path="/activate/:uid/:token" element={<ActivatePage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route

@@ -37,6 +37,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
 
+# LOGIN_URL = '/api/v1/auth/jwt/verify'
+
+# LOGIN_REDIRECT_URL = '/api/diabetes-prediction/'
 
 # Application definition
 

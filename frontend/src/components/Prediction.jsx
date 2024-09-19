@@ -14,6 +14,7 @@ const Prediction = () => {
   });
 
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,6 +25,7 @@ const Prediction = () => {
   };
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const token = user ? user.access : null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +44,8 @@ const Prediction = () => {
       Age: parseFloat(e.target.Age.value),
     };
 
+    setLoading(true);
+
     try {
       const response = await fetch(
         "http://localhost:8000/api/diabetes-prediction/",
@@ -50,6 +54,7 @@ const Prediction = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
         }
@@ -62,16 +67,22 @@ const Prediction = () => {
       const result = await response.json();
       setResult(result.result); // Assuming 'result' contains the prediction
     } catch (error) {
+      if (!token) {
+        setResult("Please Login to predict");
+      }
       console.error("Error:", error);
-      setResult("Error: Unable to predict. Please try again.");
+      // setResult("Error: Unable to predict. Please try again.");
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <>
@@ -180,7 +191,10 @@ const Prediction = () => {
               </div>
               <button
                 type="submit"
-                className="py-2.5 px-5 text-black rounded-md text-xl uppercase mb-2.5 w-full mt-2 bg-blue-400"
+                disabled={loading}
+                className={`py-2.5 px-5 text-black rounded-md text-xl uppercase mb-2.5 w-full mt-2 bg-blue-400 ${
+                  loading ? "cursor-not-allowed" : ""
+                } `}
               >
                 Predict
               </button>
@@ -188,7 +202,7 @@ const Prediction = () => {
             {result && (
               <div>
                 <h2 className="text-xl text-center">
-                  Prediction Result: {result}
+                  Prediction Result: {loading ? "predicting..." : result}
                 </h2>
               </div>
             )}

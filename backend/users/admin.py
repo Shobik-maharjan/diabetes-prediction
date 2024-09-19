@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import User
+from .models import User, DiabetesData
 
 # Register your models here.
 
@@ -49,3 +49,36 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+
+class DiabetesDataAdmin(admin.ModelAdmin):
+    list_display = [
+        'user', 'pregnancies', 'glucose', 'bloodpressure', 
+        'skinthickness', 'insulin', 'bmi', 'diabetes_pedigree_function', 
+        'age', 'result', 'created_at'
+    ]
+    list_filter = [
+        'user', 'result'
+    ]
+    search_fields = [
+        'user__email', 'result'
+    ]
+    readonly_fields = [
+        'created_at'
+    ]
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'pregnancies', 'glucose', 'bloodpressure', 
+                       'skinthickness', 'insulin', 'bmi', 
+                       'diabetes_pedigree_function', 'age', 'result')
+        }),
+        ('Important Dates', {
+            'fields': ('created_at',)
+        }),
+    )
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # Editing an existing object
+            return self.readonly_fields + ('user',)
+        return self.readonly_fields
+
+admin.site.register(DiabetesData, DiabetesDataAdmin)

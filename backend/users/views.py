@@ -2,8 +2,16 @@ import pickle
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from users.models import DiabetesData
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+# from django.contrib.auth.decorators import login_required
+
 
 @csrf_exempt
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+# @login_required
 def diabetes_pre(request):
     if request.method == "POST":
         try:
@@ -39,6 +47,22 @@ def diabetes_pre(request):
             result = "Diabetic" if prediction[0] == 1 else "Not Diabetic"
 
             # Return JSON response
+
+
+            diabetes_data = DiabetesData(
+                user=request.user,
+                pregnancies=pregnancies,
+                glucose=glucose,
+                bloodpressure=bloodpressure,
+                skinthickness=skinthickness,
+                insulin=insulin,
+                bmi=BMI,
+                diabetes_pedigree_function=DiabetesPedigreeFunction,
+                age=age,
+                result=result,
+            )
+            diabetes_data.save()
+
             return JsonResponse({'result': result})
 
         except Exception as e:

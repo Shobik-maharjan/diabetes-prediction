@@ -2,11 +2,12 @@ import pickle
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from rest_framework.response import Response 
 from users.models import DiabetesData
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 # from django.contrib.auth.decorators import login_required
-
+from .serializers import DiabetesDataSerializer
 
 @csrf_exempt
 @api_view(['POST'])
@@ -27,11 +28,11 @@ def diabetes_pre(request):
             age = float(data.get("Age", 0))
 
             # Load the pre-trained model
-            with open('diabetes.pkl', 'rb') as file:
+            with open('own_algo_diabetes.pkl', 'rb') as file:
                 diabetes_model = pickle.load(file)
             
             # Load the scaler
-            with open('scaler.pkl', 'rb') as file:
+            with open('own_algo_scaler.pkl', 'rb') as file:
                 scaler = pickle.load(file)
 
             # Prepare the input data
@@ -69,3 +70,11 @@ def diabetes_pre(request):
             return JsonResponse({'error': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_diabetes_data(request):
+    user = request.user  # Get the currently authenticated user
+    diabetes_data = DiabetesData.objects.filter(user=user)  # Filter records by user
+    serializer = DiabetesDataSerializer(diabetes_data, many=True)  # Serialize the queryset
+    return Response(serializer.data)

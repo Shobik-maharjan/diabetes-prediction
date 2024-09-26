@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import UserLayout from "./layout/UserLayout";
 import UserRoute from "./routes/UserRoute";
+import "./App.css";
 
 const App = () => {
   return (

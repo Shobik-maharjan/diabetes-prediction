@@ -9,6 +9,7 @@ import ResetPassword from "../components/ResetPassword";
 import ResetPasswordPage from "../components/ResetPasswordPage";
 import NotFoundPage from "../components/NotFoundPage";
 import Home from "../layout/pages/home/Home";
+import History from "../components/History";
 
 const UserRoute = () => {
   return (
@@ -25,6 +26,7 @@ const UserRoute = () => {
           path="/password/reset/confirm/:uid/:token"
           element={<ResetPasswordPage />}
         />
+        <Route path="/history" element={<History />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

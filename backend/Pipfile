@@ -12,6 +12,7 @@ djoser = "*"
 djangorestframework-simplejwt = "*"
 pyjwt = "*"
 mysqlclient = "*"
+scikit-learn = "*"
 
 [dev-packages]
 

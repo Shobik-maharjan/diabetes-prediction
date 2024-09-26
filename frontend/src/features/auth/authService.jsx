@@ -8,6 +8,7 @@ const ACTIVATE_URL = `${BACKEND_DOMAIN}/api/v1/auth/users/activation/`;
 const RESET_PASSWORD_URL = `${BACKEND_DOMAIN}/api/v1/auth/users/reset_password/`;
 const RESET_PASSWORD_CONFIRM_URL = `${BACKEND_DOMAIN}/api/v1/auth/users/reset_password_confirm/`;
 const GET_USER_INFO = `${BACKEND_DOMAIN}/api/v1/auth/users/me/`;
+const GET_USER_DIABETES_DATA = `${BACKEND_DOMAIN}/api/diabetesData/`;
 
 // register
 const register = async (userData) => {
@@ -88,6 +89,29 @@ const resetPasswordConfirm = async (userData) => {
   }
 };
 
+const getUserInfo = async (accessToken) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  const response = await axios.get(GET_USER_INFO, config);
+  console.log(response);
+
+  return response.data;
+};
+
+const getUserDiabetesData = async (accessToken) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = await axios.get(GET_USER_DIABETES_DATA, config);
+  return response.data;
+};
+
 const authService = {
   register,
   login,
@@ -95,6 +119,8 @@ const authService = {
   activate,
   resetPassword,
   resetPasswordConfirm,
+  getUserInfo,
+  getUserDiabetesData,
 };
 
 export default authService;

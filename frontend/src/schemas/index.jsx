@@ -16,3 +16,34 @@ export const registerSchema = Yup.object({
     .required("Confirm Password is required")
     .oneOf([Yup.ref("password"), null], "Password must match"),
 });
+
+export const predictSchema = Yup.object({
+  Pregencies: Yup.number().min(0).typeError("Pregnancies must be a number"),
+  Glucose: Yup.number()
+    .required("Glucose is required")
+    .min(70, "Glucose must be at least 70")
+    .max(400),
+  BloodPressure: Yup.number()
+    .required("Blood Pressure is required")
+    .min(60, "Blood Pressure must be at least 60"),
+  SkinThickness: Yup.number()
+    .required("Skin Thickness is required")
+    .min(0, "Skin Thickness must be at least 0")
+    .max(99, "Skin Thickness must be below 99"),
+  Insulin: Yup.number()
+    .required("Insulin is required")
+    .min(0, "Insulin must be at least 0")
+    .max(846),
+  BMI: Yup.number()
+    .required("BMI is required")
+    .min(15, "BMI must be at least 15")
+    .max(60, "BMI must be below 60"),
+  DiabetesPedigreeFunction: Yup.number()
+    .required("Diabetes Pedigree Function is required")
+    .min(0, "Diabetes Pedigree Function must be at least 0")
+    .max(2.5, "Diabetes Pedigree Function must be below 2.5"),
+  Age: Yup.number()
+    .required("Age is required")
+    .min(16, "Age must be at least 16")
+    .max(100, "Age must be below 100"),
+});

@@ -25,7 +25,8 @@ export const predictSchema = Yup.object({
     .max(400),
   BloodPressure: Yup.number()
     .required("Blood Pressure is required")
-    .min(60, "Blood Pressure must be at least 60"),
+    .min(60, "Blood Pressure must be at least 60")
+    .max(120, "Blood Pressure must be at least 120"),
   SkinThickness: Yup.number()
     .required("Skin Thickness is required")
     .min(0, "Skin Thickness must be at least 0")

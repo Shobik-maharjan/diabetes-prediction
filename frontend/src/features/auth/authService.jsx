@@ -97,8 +97,6 @@ const getUserInfo = async (accessToken) => {
   };
 
   const response = await axios.get(GET_USER_INFO, config);
-  console.log(response);
-
   return response.data;
 };
 

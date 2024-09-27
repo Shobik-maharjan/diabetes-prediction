@@ -11,7 +11,7 @@ const History = () => {
   }, [dispatch]);
 
   return (
-    <div className="bg-slate-100 p-4 mb-10 pb-10">
+    <div className="bg-slate-100 p-4 my-10 pb-10">
       <div className="text-2xl font-bold mb-4">History</div>
 
       {/* Header Row */}

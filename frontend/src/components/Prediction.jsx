@@ -24,7 +24,7 @@ const Prediction = () => {
     { label: "Diastolic Blood Pressure: (60 - 120)", name: "BloodPressure" },
     { label: "Skin thickness (0-99 mm)", name: "SkinThickness" },
     { label: "Insulin level (0-846 µU/mL):", name: "Insulin" },
-    { label: "BMI (10 - 50)", name: "BMI" },
+    { label: "BMI (15 - 60)", name: "BMI" },
     {
       label: "Diabetes Pedigree Function (0-2.5)",
       name: "DiabetesPedigreeFunction",
@@ -98,7 +98,6 @@ const Prediction = () => {
       // action.resetForm();
     },
   });
-  console.log(result);
   useEffect(() => {
     if (!user) {
       dispatch(logout());

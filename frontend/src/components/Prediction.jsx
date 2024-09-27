@@ -78,7 +78,8 @@ const Prediction = () => {
           }
 
           const result = await response.json();
-          setResult(result.result); // Assuming 'result' contains the prediction
+
+          setResult(result); // Assuming 'result' contains the prediction
         } catch (error) {
           if (!token) {
             setResult("Please Login to predict");
@@ -91,7 +92,7 @@ const Prediction = () => {
         // action.resetForm();
       },
     });
-
+  console.log(result);
   useEffect(() => {
     if (!user) {
       dispatch(logout());
@@ -269,8 +270,15 @@ const Prediction = () => {
             {result && (
               <div>
                 <h2 className="text-xl text-center">
-                  Prediction Result: {loading ? "predicting..." : result}
+                  Prediction Result: {loading ? "predicting..." : result.result}
                 </h2>
+                {!loading && (
+                  <p className="text-center">
+                    {result.result === "Diabetic"
+                      ? `${result.probability_diabetic} of being Diabetic`
+                      : `${result.probability_not_diabetic} of not being Diabetic`}
+                  </p>
+                )}
               </div>
             )}
           </div>

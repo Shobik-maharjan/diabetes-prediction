@@ -28,7 +28,7 @@ const Footer = () => {
         <div className="w-10/12 mx-auto flex flex-col gap-8 pt-10">
           <div className="content flex">
             <div className="grid md:grid-cols-2 gap-4 items-start justify-between">
-              <div className="about flex flex-col gap-6">
+              {/* <div className="about flex flex-col gap-6">
                 <div className="about-text flex flex-col gap-4">
                   <p className="font-semibold text-lg">About</p>
                   <p>
@@ -39,24 +39,7 @@ const Footer = () => {
                 </div>
                 <Email />
                 <Phone />
-              </div>
-
-              <div className="quick-link flex justify-center gap-20">
-                <div className="flex flex-col gap-4">
-                  <h2 className="font-semibold text-lg">Quick Link</h2>
-                  <div className="flex flex-col gap-2">
-                    {quickLink.map((item, i) => (
-                      <Link
-                        to={`/${item.toLowerCase().replace(" ", "-")}`}
-                        key={i}
-                        className="hover:underline hover:text-blue-400"
-                      >
-                        {item}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -70,6 +53,22 @@ const Footer = () => {
                 <div className="copyright-info flex items-center gap-1">
                   <FaRegCopyright />
                   All Rights Reservd
+                </div>
+              </div>
+            </div>
+            <div className="quick-link flex justify-center gap-20">
+              <div className="flex flex-col gap-4">
+                {/* <h2 className="font-semibold text-lg">Quick Link</h2> */}
+                <div className="flex flex-col gap-2">
+                  {quickLink.map((item, i) => (
+                    <Link
+                      to={`/${item.toLowerCase().replace(" ", "-")}`}
+                      key={i}
+                      className="hover:underline hover:text-blue-400"
+                    >
+                      {item}
+                    </Link>
+                  ))}
                 </div>
               </div>
             </div>

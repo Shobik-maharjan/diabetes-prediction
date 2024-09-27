@@ -10,6 +10,8 @@ import ResetPasswordPage from "../components/ResetPasswordPage";
 import NotFoundPage from "../components/NotFoundPage";
 import Home from "../layout/pages/home/Home";
 import History from "../components/History";
+import Contact from "../components/Contact";
+import Description from "../components/Description.jsx";
 
 const UserRoute = () => {
   return (
@@ -19,7 +21,9 @@ const UserRoute = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/prediction" element={<Prediction />} />
+        <Route path="/description" element={<Description />} />
         <Route path="/activate/:uid/:token" element={<ActivatePage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route

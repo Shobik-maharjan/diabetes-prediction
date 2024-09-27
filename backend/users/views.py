@@ -2,21 +2,19 @@ import pickle
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from rest_framework.response import Response 
+from rest_framework.response import Response
 from users.models import DiabetesData
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-# from django.contrib.auth.decorators import login_required
 from .serializers import DiabetesDataSerializer
 
 @csrf_exempt
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-# @login_required
 def diabetes_pre(request):
     if request.method == "POST":
         try:
-            # Parse JSON data
+            # Parse JSON data from the request body
             data = json.loads(request.body)
             pregnancies = float(data.get("Pregnancies", 0))
             glucose = float(data.get("Glucose", 0))
@@ -27,29 +25,34 @@ def diabetes_pre(request):
             DiabetesPedigreeFunction = float(data.get("DiabetesPedigreeFunction", 0))
             age = float(data.get("Age", 0))
 
-            # Load the pre-trained model
+            # Load the pre-trained logistic regression model
             with open('own_algo_diabetes.pkl', 'rb') as file:
                 diabetes_model = pickle.load(file)
             
-            # Load the scaler
+            # Load the scaler to scale input data
             with open('own_algo_scaler.pkl', 'rb') as file:
                 scaler = pickle.load(file)
 
-            # Prepare the input data
+            # Prepare the input data for prediction
             input_data = [[pregnancies, glucose, bloodpressure, skinthickness, insulin, BMI, DiabetesPedigreeFunction, age]]
-
-            # Scale the features
+            
+            # Scale the features before prediction
             scaled_data = scaler.transform(input_data)
 
-            # Make prediction
+            # Make prediction probabilities
+            probabilities = diabetes_model.predict_proba(scaled_data)
+
+            # Probabilities for both classes (0 = Not Diabetic, 1 = Diabetic)
+            prob_not_diabetic = probabilities[0][0] * 100  # Probability of not having diabetes
+            prob_diabetic = probabilities[0][1] * 100      # Probability of having diabetes
+
+            # Get the predicted class (0 or 1)
             prediction = diabetes_model.predict(scaled_data)
 
-            # Determine the result
+            # Determine the result based on the prediction
             result = "Diabetic" if prediction[0] == 1 else "Not Diabetic"
 
-            # Return JSON response
-
-
+            # Save the prediction in the database (optional)
             diabetes_data = DiabetesData(
                 user=request.user,
                 pregnancies=pregnancies,
@@ -64,13 +67,17 @@ def diabetes_pre(request):
             )
             diabetes_data.save()
 
-            return JsonResponse({'result': result})
+            # Return a JSON response with both the prediction result and probabilities
+            return JsonResponse({
+                'result': result,
+                'probability_diabetic': f"{prob_diabetic:.2f}%",  # Probability of diabetes
+                'probability_not_diabetic': f"{prob_not_diabetic:.2f}%"  # Probability of not having diabetes
+            })
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-    
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_diabetes_data(request):

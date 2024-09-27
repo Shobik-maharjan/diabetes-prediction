@@ -13,6 +13,7 @@ djangorestframework-simplejwt = "*"
 pyjwt = "*"
 mysqlclient = "*"
 scikit-learn = "*"
+pandas = "*"
 
 [dev-packages]
 

@@ -34,10 +34,17 @@ class LogisticRegression:
             self.weights -= self.learning_rate * dw
             self.bias -= self.learning_rate * db
 
-    def predict(self, X):
+    def predict_proba(self, X):
+        """Return probabilities of both classes: Not Diabetic (class 0) and Diabetic (class 1)"""
         linear_model = np.dot(X, self.weights) + self.bias
-        y_predicted_probs = self.sigmoid(linear_model)
-        y_predicted = [1 if i > 0.5 else 0 for i in y_predicted_probs]
+        prob_class_1 = self.sigmoid(linear_model)  # Probability of class 1 (Diabetic)
+        prob_class_0 = 1 - prob_class_1            # Probability of class 0 (Not Diabetic)
+        return np.vstack((prob_class_0, prob_class_1)).T  # Return both probabilities as a 2D array
+
+    def predict(self, X):
+        """Predict binary outcome"""
+        probabilities = self.predict_proba(X)[:, 1]  # Use only the probability for class 1
+        y_predicted = [1 if i > 0.5 else 0 for i in probabilities]
         return np.array(y_predicted)
 
 # Main function to run the logistic regression
@@ -63,11 +70,26 @@ if __name__ == "__main__":
 
     # Predict on the test set
     predictions = model.predict(X_test)
-
+    probabilities = model.predict_proba(X_test)  # Get probabilities for both classes
+    
     # Calculate accuracy
     acc = accuracy_score(y_test, predictions)
     print("Predictions:", predictions)
     print(f"Accuracy: {acc:.2f}%")
+    
+    # Show probabilities and results for both classes
+    for i, (prob_0, prob_1) in enumerate(probabilities):
+        diabetes_risk = prob_1 * 100
+        non_diabetes_risk = prob_0 * 100
+        
+        if predictions[i] == 1:
+            # Predicted as Diabetic
+            print(f"Test sample {i+1}: Predicted as Diabetic")
+            print(f"You have a {diabetes_risk:.2f}% chance of having diabetes.")
+        else:
+            # Predicted as Not Diabetic
+            print(f"Test sample {i+1}: Predicted as Not Diabetic")
+            print(f"You have a {non_diabetes_risk:.2f}% chance of NOT having diabetes.")
     
     # Additional metrics
     print("Confusion Matrix:")

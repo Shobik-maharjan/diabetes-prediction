@@ -71,11 +71,11 @@ const Register = () => {
                 <input
                   value={values.first_name}
                   type="text"
-                  name="first_name"
+                  name="irst_name"
                   id="first_name"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="first name"
+                  placeholder="First Name"
                   className="w-full my-2.5 mx-auto p-2.5 rounded-md outline-none"
                 />
                 <div className="text-red-500">
@@ -96,7 +96,7 @@ const Register = () => {
                   id="last_name"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="last name"
+                  placeholder="Last Name"
                   className="w-full my-2.5 mx-auto p-2.5 rounded-md outline-none"
                 />
                 <div className="text-red-500">
@@ -187,7 +187,7 @@ const Register = () => {
               <button
                 type="submit"
                 id="form-login"
-                className="py-2.5 px-5 bg-blue-400 text-white rounded-md text-xl uppercase mb-2.5 w-full hover:bg-blue-400/80"
+                className="py-2.5 px-5 bg-blue-500 text-white rounded-md text-xl uppercase mb-2.5 w-full hover:bg-blue-500/90"
               >
                 Register
               </button>
@@ -195,7 +195,7 @@ const Register = () => {
 
             <div className="text-red-500 capitalize">{error}</div>
 
-            <div className="text-right text-xl flex justify-between py-2.5 px-0">
+            <div className="text-right text-lg flex justify-between py-2.5 px-0">
               <Link className="hover:text-blue-400" to={"/login"}>
                 Login Here
               </Link>

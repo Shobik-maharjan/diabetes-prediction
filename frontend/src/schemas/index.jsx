@@ -18,9 +18,11 @@ export const registerSchema = Yup.object({
 });
 
 export const predictSchema = Yup.object({
-  Pregencies: Yup.number().min(0).typeError("Pregnancies must be a number"),
+  Pregnancies: Yup.number()
+    .required("Pregnancies is required")
+    .min(0, "Please enter details"),
   Glucose: Yup.number()
-    .required("Glucose is required")
+    .required("Glucose level is required")
     .min(70, "Glucose must be at least 70")
     .max(400),
   BloodPressure: Yup.number()

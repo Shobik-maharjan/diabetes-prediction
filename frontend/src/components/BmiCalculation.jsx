@@ -43,7 +43,7 @@ const BmiCalculation = ({ setBmiValue, closeModal }) => {
           </div>
           <button
             type="submit"
-            className="py-2.5 px-5 text-black rounded-md text-xl uppercase mb-2.5 w-full mt-2 bg-blue-400 hover:bg-blue-400/90"
+            className="py-2.5 px-5 text-black rounded-md text-xl uppercase mb-2.5 w-full mt-2 bg-blue-500 hover:bg-blue-500/90"
           >
             Calculate
           </button>

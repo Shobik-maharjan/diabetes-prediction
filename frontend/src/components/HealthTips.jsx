@@ -35,16 +35,16 @@ const HealthTips = () => {
   ];
 
   return (
-    <div className="py-6">
+    <div className="py-6 bg-white">
       <h1 className="text-3xl font-bold text-center mb-8">
         SOME TIPS TO MAINTAIN HEALTHY LIFE
       </h1>
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-8">
           {tips.map((tip, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg overflow-hidden"
+              className="bg-slate-100 shadow-md rounded-lg overflow-hidden"
             >
               <img
                 className="w-full h-48 object-cover"

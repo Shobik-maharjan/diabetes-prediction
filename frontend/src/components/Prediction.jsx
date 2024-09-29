@@ -150,7 +150,7 @@ const Prediction = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`py-2.5 px-5 text-black rounded-md text-xl uppercase mb-2.5 w-full mt-2 bg-blue-400 ${
+              className={`py-2.5 px-5 text-white rounded-md text-xl uppercase mb-2.5 w-full mt-2 bg-blue-500 hover:bg-blue-500/90 ${
                 loading ? "cursor-not-allowed" : ""
               }`}
             >
@@ -175,7 +175,7 @@ const Prediction = () => {
             <button
               type="button"
               onClick={() => setBmiModalOpen(true)}
-              className="text-blue-500 underline mt-4"
+              className="hover:text-blue-500 underline mt-4"
             >
               Click here to calculate BMI
             </button>

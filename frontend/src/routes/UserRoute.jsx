@@ -11,6 +11,7 @@ import NotFoundPage from "../components/NotFoundPage";
 import Home from "../layout/pages/home/Home";
 import History from "../components/History";
 import Contact from "../components/Contact";
+import DPFCalculation from "../components/DPFCalculation";
 
 const UserRoute = () => {
   return (
@@ -29,6 +30,7 @@ const UserRoute = () => {
           element={<ResetPasswordPage />}
         />
         <Route path="/history" element={<History />} />
+        <Route path="/dpf" element={<DPFCalculation />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

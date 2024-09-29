@@ -3,7 +3,7 @@ import React from "react";
 const Contact = () => {
   return (
     <>
-      <div className="py-36 text-center">
+      <div className="py-10 text-center">
         <h2 className="text-4xl font-bold mb-8">Contact Page</h2>
 
         <iframe

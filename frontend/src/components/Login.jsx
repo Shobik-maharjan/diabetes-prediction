@@ -25,13 +25,13 @@ const Login = () => {
       validationSchema: loginSchema,
       onSubmit: (values, action) => {
         dispatch(login(values));
-        // action.resetForm();
+        action.resetForm();
       },
     });
 
   useEffect(() => {
     if (isError) {
-      toast.error("Invalid Crediental");
+      setError("Invalid email or password. Please try again.");
     }
     if (isSuccess || user) {
       navigate("/");
@@ -83,12 +83,13 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="py-2.5 px-5 text-black rounded-md text-xl uppercase mb-2.5 w-full mt-2 bg-blue-400"
+                className="py-2.5 px-5 text-white rounded-md text-xl mb-2.5 w-full mt-2 bg-blue-500 hover:bg-blue-500/90 uppercase"
               >
                 Login
               </button>
             </div>
-            <div className="text-right text-xl flex gap-10 py-2.5 px-0">
+            <div className="text-red-500 text-lg">{error}</div>
+            <div className="text-lg flex justify-between py-2.5 px-0">
               <Link className="hover:text-blue-400" to={"/register"}>
                 Register
               </Link>

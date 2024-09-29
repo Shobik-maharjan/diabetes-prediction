@@ -86,21 +86,21 @@ const DiabetesInfoSlider = () => {
   }, [currentIndex]);
 
   return (
-    <div className=" mt-4 flex flex-col items-center justify-center ">
-      <div className="relative w-full ">
+    <div className=" mt-4 flex flex-col items-center justify-center">
+      <div className="relative w-full">
         <div className="bg-white p-8 rounded-lg shadow-md text-center transition-transform duration-500 ease-in-out transform">
           {/* Image */}
           <img
             src={descriptions[currentIndex].image}
             alt={descriptions[currentIndex].title}
-            className="w-full h-80 object-cover rounded-lg mb-4"
+            className="w-full h-80 object-scale-down rounded-lg mb-4"
           />
 
           {/* Title and Description */}
           <h2 className="text-2xl font-semibold text-indigo-600 mb-4">
             {descriptions[currentIndex].title}
           </h2>
-          <p className="text-gray-950  font-medium  text-xl">
+          <p className="text-gray-950 font-medium text-xl min-h-16">
             {descriptions[currentIndex].description}
           </p>
         </div>

@@ -3,9 +3,9 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 from django.utils import timezone
+import numpy as np
 
 # Create your models here.
-
 
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_("First Name"), max_length=100)
@@ -13,6 +13,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("Email Address"), max_length=254, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+    last_login = models.DateTimeField(null=True, blank=True)
     date_joined =  models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = "email"
@@ -48,3 +49,10 @@ class DiabetesData(models.Model):
     def __str__(self):
         return f"DiabetesData(age={self.age}, glucose={self.glucose})"
     
+class SkinThicknessPredictor:
+
+    def predict(self, Age, BMI, Glucose):
+        # Prepare input features for prediction
+        input_features = np.array([[Age, BMI, Glucose]])
+        # Make prediction
+        return self.model.predict(input_features)[0]  # Assuming the model returns a single value

@@ -6,12 +6,18 @@ import { logout } from "../features/auth/authSlice";
 import Modal from "../components/Modal";
 import BmiCalculation from "./BmiCalculation";
 import { predictSchema } from "../schemas";
+import DPFCalculator from "./DPFCalculation";
+import axios from "axios";
+import Precautions from "./Precaution";
 
 const Prediction = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isBmiModalOpen, setBmiModalOpen] = useState(false);
+  const [isDpfModalOpen, setDpfModalOpen] = useState(false);
   const [bmiValue, setBmiValue] = useState(""); // State for BMI value
+  const [dpfValue, setDpfValue] = useState(""); // State for DPF value
+  const [isResultModalOpen, setResultModalOpen] = useState(false); // State for the result modal
 
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
@@ -86,6 +92,7 @@ const Prediction = () => {
         const result = await response.json();
 
         setResult(result); // Assuming 'result' contains the prediction
+        setResultModalOpen(true);
       } catch (error) {
         if (!token) {
           setResult("Please Login to predict");
@@ -111,6 +118,56 @@ const Prediction = () => {
       setFieldValue("BMI", bmiValue);
     }
   }, [bmiValue, setFieldValue]);
+
+  useEffect(() => {
+    if (dpfValue) {
+      setFieldValue("DiabetesPedigreeFunction", dpfValue); // Update DPF in form
+    }
+  }, [dpfValue, setFieldValue]);
+
+  // Function to predict skin thickness
+  const predictSkinThickness = async () => {
+    if (values.Age && values.BMI && values.Glucose) {
+      const newUserData = [
+        parseFloat(values.Age),
+        parseFloat(values.BMI),
+        parseFloat(values.Glucose),
+      ];
+
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/api/predict_skin_thickness/",
+          {
+            Age: newUserData[0],
+            BMI: newUserData[1],
+            Glucose: newUserData[2],
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.data.estimated_skin_thickness) {
+          setFieldValue(
+            "SkinThickness",
+            response.data.estimated_skin_thickness.toFixed(2)
+          ); // Update the SkinThickness field
+        }
+      } catch (error) {
+        console.error("Error predicting skin thickness:", error);
+      }
+    }
+  };
+
+  // Automatically predict skin thickness when Age, BMI, or Glucose changes
+  useEffect(() => {
+    if (values.Age && values.BMI && values.Glucose) {
+      predictSkinThickness();
+    }
+  }, [values.Age, values.BMI, values.Glucose]);
 
   return (
     <>
@@ -156,7 +213,7 @@ const Prediction = () => {
             >
               Predict
             </button>
-            {result && (
+            {/* {result && (
               <div>
                 <h2 className="text-xl text-center">
                   Prediction Result: {loading ? "predicting..." : result.result}
@@ -169,7 +226,7 @@ const Prediction = () => {
                   </p>
                 )}
               </div>
-            )}
+            )} */}
 
             {/* Button to open BMI Modal */}
             <button
@@ -179,15 +236,59 @@ const Prediction = () => {
             >
               Click here to calculate BMI
             </button>
+            <br />
+            <button
+              type="button"
+              onClick={() => setDpfModalOpen(true)}
+              className="hover:text-blue-500 underline mt-4"
+            >
+              Click here to calculate DIabetes Pedigree Function
+            </button>
           </div>
         </form>
-
         {/* BMI Calculation Modal */}
         <Modal isOpen={isBmiModalOpen} onClose={() => setBmiModalOpen(false)}>
           <BmiCalculation
             setBmiValue={setBmiValue}
             closeModal={() => setBmiModalOpen(false)}
           />
+        </Modal>
+
+        {/* DPF Calculation Modal */}
+        <Modal isOpen={isDpfModalOpen} onClose={() => setDpfModalOpen(false)}>
+          <DPFCalculator
+            setDpfValue={setDpfValue}
+            closeModal={() => setDpfModalOpen(false)}
+          />
+          {/* Render DPFCalculator inside Modal */}
+        </Modal>
+
+        {/* Result Modal */}
+        <Modal
+          isOpen={isResultModalOpen}
+          onClose={() => setResultModalOpen(false)}
+        >
+          {loading ? (
+            <p>Predicting...</p>
+          ) : (
+            <div className="text-center">
+              {result?.result === "Diabetic" ? (
+                <>
+                  <h2 className="text-xl font-semibold text-red-600">
+                    Diabetic
+                  </h2>
+                  <Precautions hasDiabetes={true} />
+                </>
+              ) : (
+                <>
+                  <h2 className="text-xl font-semibold text-green-600">
+                    Not Diabetic
+                  </h2>
+                  <Precautions hasDiabetes={false} />
+                </>
+              )}
+            </div>
+          )}
         </Modal>
       </div>
     </>

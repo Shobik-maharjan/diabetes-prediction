@@ -2,11 +2,13 @@ import pickle
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import numpy as np
 from rest_framework.response import Response
 from users.models import DiabetesData
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import DiabetesDataSerializer
+import joblib
 
 @csrf_exempt
 @api_view(['POST'])
@@ -39,13 +41,6 @@ def diabetes_pre(request):
             # Scale the features before prediction
             scaled_data = scaler.transform(input_data)
 
-            # Make prediction probabilities
-            probabilities = diabetes_model.predict_proba(scaled_data)
-
-            # Probabilities for both classes (0 = Not Diabetic, 1 = Diabetic)
-            prob_not_diabetic = probabilities[0][0] * 100  # Probability of not having diabetes
-            prob_diabetic = probabilities[0][1] * 100      # Probability of having diabetes
-
             # Get the predicted class (0 or 1)
             prediction = diabetes_model.predict(scaled_data)
 
@@ -70,14 +65,14 @@ def diabetes_pre(request):
             # Return a JSON response with both the prediction result and probabilities
             return JsonResponse({
                 'result': result,
-                'probability_diabetic': f"{prob_diabetic:.2f}%",  # Probability of diabetes
-                'probability_not_diabetic': f"{prob_not_diabetic:.2f}%"  # Probability of not having diabetes
             })
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+    
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_diabetes_data(request):
@@ -85,3 +80,32 @@ def get_user_diabetes_data(request):
     diabetes_data = DiabetesData.objects.filter(user=user)  # Filter records by user
     serializer = DiabetesDataSerializer(diabetes_data, many=True)  # Serialize the queryset
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def predict_skin_thickness(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        # Ensure values are fetched correctly from the request
+        age = float(data.get("Age", 0))
+        BMI = float(data.get("BMI", 0))
+        glucose = float(data.get("Glucose", 0))
+        
+        try:
+            # Load the trained model (make sure the path is correct)
+            model = joblib.load('skin_thickness_predictor.pkl')
+
+            # Prepare input features for prediction
+            input_features = np.array([[BMI, glucose, age]])  # Use BMI instead of bmi
+
+            # Make prediction
+            estimated_skin_thickness = model.predict(input_features)[0]  # Get the first prediction result
+
+            return JsonResponse({'estimated_skin_thickness': estimated_skin_thickness})
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return Response({"error": "Method not allowed"}, status=405)

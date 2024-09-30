@@ -107,7 +107,7 @@ const DiabetesInfoSlider = () => {
 
         {/* Previous Button */}
         <button
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white bg-indigo-300 hover:bg-indigo-600 px-4 py-2 rounded-full shadow-md focus:outline-none"
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white bg-indigo-300 hover:bg-indigo-600 px-4 py-2 rounded-full shadow-md focus:outline-none"
           onClick={prevSlide}
         >
           ‹
@@ -115,7 +115,7 @@ const DiabetesInfoSlider = () => {
 
         {/* Next Button */}
         <button
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white bg-indigo-300 hover:bg-indigo-600 px-4 py-2 rounded-full shadow-md focus:outline-none"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white bg-indigo-300 hover:bg-indigo-600 px-4 py-2 rounded-full shadow-md focus:outline-none"
           onClick={nextSlide}
         >
           ›

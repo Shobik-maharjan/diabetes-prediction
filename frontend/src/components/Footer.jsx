@@ -25,7 +25,7 @@ const Footer = () => {
   return (
     <>
       <footer className="bg-slate-100">
-        <div className="w-10/12 mx-auto flex flex-col gap-8 pt-10">
+        <div className="w-10/12 mx-auto flex flex-col gap-8">
           <div className="content flex">
             <div className="grid md:grid-cols-2 gap-4 items-start justify-between">
               {/* <div className="about flex flex-col gap-6">

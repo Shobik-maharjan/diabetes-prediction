@@ -9,9 +9,7 @@ User = get_user_model()
 class CreateUserSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'password']
-
-
+        fields = ['id', 'email', 'first_name', 'last_name', 'password', 'last_login']
         
 class DiabetesSerializer(serializers.Serializer):
     Pregnancies = serializers.FloatField()
@@ -23,9 +21,8 @@ class DiabetesSerializer(serializers.Serializer):
     DiabetesPedigreeFunction = serializers.FloatField()
     Age = serializers.FloatField()
 
-
 class DiabetesDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = DiabetesData
         fields = ['id', 'user', 'pregnancies', 'glucose', 'bloodpressure', 
-                  'skinthickness', 'insulin', 'bmi', 'diabetes_pedigree_function', 'age', 'result']
+                  'skinthickness', 'insulin', 'bmi', 'diabetes_pedigree_function', 'age', 'result', 'created_at']

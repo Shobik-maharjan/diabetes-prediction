@@ -19,10 +19,7 @@ export const register = createAsyncThunk(
     try {
       return await authService.register(userData);
     } catch (error) {
-      const message =
-        (error.response && error.response.data && error.response.message) ||
-        error.message ||
-        error.toString();
+      const message = error.response.data;
       return thunkAPI.rejectWithValue(message);
     }
   }

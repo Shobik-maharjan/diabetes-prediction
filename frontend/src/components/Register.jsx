@@ -31,25 +31,25 @@ const Register = () => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
-        email: "",
         first_name: "",
         last_name: "",
+        email: "",
         password: "",
         re_password: "",
       },
       validationSchema: registerSchema,
       onSubmit: (values, action) => {
         dispatch(register(values));
-        action.resetForm();
+        // action.resetForm();
       },
     });
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      toast.error(message.email[0]);
     }
     if (isSuccess || user) {
-      navigate("/");
+      navigate("/login");
       toast.success(
         "An activation email has been sent to your email. Please check your email address"
       );
@@ -71,7 +71,7 @@ const Register = () => {
                 <input
                   value={values.first_name}
                   type="text"
-                  name="irst_name"
+                  name="first_name"
                   id="first_name"
                   onChange={handleChange}
                   onBlur={handleBlur}

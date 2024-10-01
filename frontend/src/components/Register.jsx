@@ -40,7 +40,7 @@ const Register = () => {
       validationSchema: registerSchema,
       onSubmit: (values, action) => {
         dispatch(register(values));
-        // action.resetForm();
+        action.resetForm();
       },
     });
 
@@ -187,7 +187,9 @@ const Register = () => {
               <button
                 type="submit"
                 id="form-login"
-                className="py-2.5 px-5 bg-blue-500 text-white rounded-md text-xl uppercase mb-2.5 w-full hover:bg-blue-500/90"
+                className={`py-2.5 px-5 bg-blue-500 text-white rounded-md text-xl uppercase mb-2.5 w-full hover:bg-blue-500/90 ${
+                  isLoading ? "cursor-not-allowed" : ""
+                }`}
               >
                 Register
               </button>

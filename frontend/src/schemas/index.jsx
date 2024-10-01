@@ -24,7 +24,8 @@ export const registerSchema = Yup.object({
 export const predictSchema = Yup.object({
   Pregnancies: Yup.number()
     .required("Pregnancies is required")
-    .min(0, "Please enter details"),
+    .min(0, "Please enter details")
+    .max(15, "Pregancies must be below 15"),
   Glucose: Yup.number()
     .required("Glucose level is required")
     .min(70, "Glucose must be at least 70")
@@ -32,7 +33,7 @@ export const predictSchema = Yup.object({
   BloodPressure: Yup.number()
     .required("Blood Pressure is required")
     .min(60, "Blood Pressure must be at least 60")
-    .max(120, "Blood Pressure must be at least 120"),
+    .max(120, "Blood Pressure must be below 120"),
   SkinThickness: Yup.number()
     .required("Skin Thickness is required")
     .min(0, "Skin Thickness must be at least 0")

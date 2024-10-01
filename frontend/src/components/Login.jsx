@@ -4,17 +4,22 @@ import { loginSchema } from "../schemas";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, reset } from "../features/auth/authSlice";
-import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const Login = () => {
   const [error, setError] = useState("");
-  const [showPassowrd, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -63,18 +68,26 @@ const Login = () => {
               </div>
 
               <div className="flex flex-col gap-2">
-                <label htmlFor="password">Pasword</label>
-                <div>
+                <label htmlFor="password">Password</label>
+                <div className="relative">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Passowrd"
+                    placeholder="Password"
                     className="w-full p-2.5 rounded-md outline-none"
                   />
+                  {values.password.length > 0 && (
+                    <div
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none cursor-pointer"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? <FaEye /> : <FaEyeSlash />}
+                    </div>
+                  )}
                 </div>
                 <div className="text-red-500">
                   {errors.password && touched.password ? errors.password : null}
@@ -83,7 +96,10 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="py-2.5 px-5 text-white rounded-md text-xl mb-2.5 w-full mt-2 bg-blue-500 hover:bg-blue-500/90 uppercase"
+                className={`py-2.5 px-5 text-white rounded-md text-xl mb-2.5 w-full mt-2 bg-blue-500 hover:bg-blue-500/90 uppercase ${
+                  isLoading ? "cursor-not-allowed" : ""
+                }`}
+                disabled={isLoading}
               >
                 Login
               </button>

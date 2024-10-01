@@ -28,14 +28,14 @@ const Prediction = () => {
     { label: "Number of times Pregnant: (0 for male)", name: "Pregnancies" },
     { label: "Glucose level (mg/dL): (70-300)", name: "Glucose" },
     { label: "Diastolic Blood Pressure: (60 - 120)", name: "BloodPressure" },
-    { label: "Skin thickness (0-99 mm)", name: "SkinThickness" },
     { label: "Insulin level (0-846 µU/mL):", name: "Insulin" },
+    { label: "Age (Years)", name: "Age" },
     { label: "BMI (15 - 60)", name: "BMI" },
     {
       label: "Diabetes Pedigree Function (0-2.5)",
       name: "DiabetesPedigreeFunction",
     },
-    { label: "Age ( > 16 Years)", name: "Age" },
+    { label: "Skin thickness (0-99 mm)", name: "SkinThickness" },
   ];
 
   const {
